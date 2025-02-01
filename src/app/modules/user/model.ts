@@ -5,11 +5,15 @@ import { UserDocument } from "./type.js";
 
 const UserSchema = new mongoose.Schema<UserDocument>(
   {
-    fullName: {
+    firstName: {
       type: String,
       required: true,
     },
 
+    lastName: {
+      type: String,
+      required: true,
+    },
     email: {
       type: String,
       lowercase: true,
@@ -50,15 +54,26 @@ const UserSchema = new mongoose.Schema<UserDocument>(
       required: false,
     },
 
-    lastLoginDevice: {
-      userAgent: String,
-      appVersion: String,
-      platform: String,
-      platformVersion: String,
-      device: String,
-      notificationToken: String,
-      expoPushNotificationToken: String,
-      devicePushNotificationToken: String,
+    address: {
+      type: String,
+      required: false,
+    },
+    location: {
+      latitude: Number,
+      longitude: Number,
+    },
+
+    deviceType: {
+      type: String,
+      default: "",
+    },
+    deviceToken: {
+      type: String,
+      default: "",
+    },
+    deviceName: {
+      type: String,
+      default: "",
     },
   },
   {

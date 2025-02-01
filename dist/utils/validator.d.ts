@@ -4,6 +4,7 @@ declare const _default: {
     create: {
         body: {
             schema: Joi.ObjectSchema<any>;
+            location: Joi.ObjectSchema<any>;
         };
     };
     logout: {

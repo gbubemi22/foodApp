@@ -2,7 +2,11 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 const UserSchema = new mongoose.Schema({
-    fullName: {
+    firstName: {
+        type: String,
+        required: true,
+    },
+    lastName: {
         type: String,
         required: true,
     },
@@ -43,15 +47,25 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
-    lastLoginDevice: {
-        userAgent: String,
-        appVersion: String,
-        platform: String,
-        platformVersion: String,
-        device: String,
-        notificationToken: String,
-        expoPushNotificationToken: String,
-        devicePushNotificationToken: String,
+    address: {
+        type: String,
+        required: false,
+    },
+    location: {
+        latitude: Number,
+        longitude: Number,
+    },
+    deviceType: {
+        type: String,
+        default: "",
+    },
+    deviceToken: {
+        type: String,
+        default: "",
+    },
+    deviceName: {
+        type: String,
+        default: "",
     },
 }, {
     timestamps: true,

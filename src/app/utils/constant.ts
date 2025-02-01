@@ -3,6 +3,7 @@ dotenv.config();
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import { v1 as uuidV1, v4 as uuidV4, validate as UUIDValidation } from "uuid";
+import { Redis } from "./helper.js";
 
 export interface DefaultResponseInt {
   success: boolean;
@@ -13,6 +14,13 @@ export interface DefaultResponseInt {
   service?: string;
 }
 
+
+const redisUrl = process.env.REDIS_URL as string;
+export const redis = new Redis(redisUrl);
+
+if (process.env.NODE_ENV as string === 'development') {
+  console.log('Redis', 'Connection established to Redis instance ...');
+}
 export type Controller = (
   req: Request,
   res: Response,
@@ -63,6 +71,13 @@ export const generateRandomString = (length = 9): string => {
   return result;
 };
 
+export function generateRandomNumber(): string {
+  return `quickfoods${Math.floor(1000000 + Math.random() * 9000000)}`;
+}
+
+console.log(generateRandomNumber()); // Example Output: #4827361
+
+
 export function parseJSON(value: any): any {
   try {
     return JSON.parse(value);
@@ -70,3 +85,5 @@ export function parseJSON(value: any): any {
     return value;
   }
 }
+
+

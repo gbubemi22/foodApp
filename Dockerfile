@@ -1,46 +1,47 @@
 # syntax = docker/dockerfile:1
 
-# Adjust NODE_VERSION as desired
+# Use a lightweight Node.js image
 ARG NODE_VERSION=18.19.0
 FROM node:${NODE_VERSION}-slim as base
-
 LABEL fly_launch_runtime="Node.js"
 
-# Node.js app lives here
+# Set working directory
 WORKDIR /app
 
-# Set production environment
-ENV NODE_ENV="production"
-
-# Throw-away build stage to reduce size of final image
+# Install dependencies and build the application
 FROM base as build
 
-# Install packages needed to build node modules
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3
+# Install build tools
+RUN apt-get update -qq && apt-get install --no-install-recommends -y \
+    build-essential \
+    node-gyp \
+    python-is-python3 \
+    pkg-config && \
+    rm -rf /var/lib/apt/lists/*
 
-# Install Yarn
-RUN corepack enable
+# Copy only the package.json and yarn.lock to install dependencies
+COPY package.json yarn.lock ./
 
 # Install dependencies
-COPY --link yarn.lock package.json ./
-RUN yarn install --production=false
+RUN yarn install --frozen-lockfile
 
 # Copy application code
-COPY --link . .
+COPY . .
 
-# Build application
+# Build the application
 RUN yarn build
 
-# Remove development dependencies
-RUN yarn install --production --frozen-lockfile && yarn cache clean
+# Prune dev dependencies
+RUN yarn install --production --frozen-lockfile
 
-# Final stage for app image
+# Create the final production image
 FROM base
 
-# Copy built application
+# Copy built application and production dependencies from the build stage
 COPY --from=build /app /app
 
-# Start the server by default, this can be overwritten at runtime
+# Expose the application port
 EXPOSE 4000
-CMD [ "yarn", "start" ]
+
+# Start the application
+CMD ["node", "dist/app.js"]

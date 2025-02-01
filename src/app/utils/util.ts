@@ -82,6 +82,8 @@ export type SendMailDataType = {
   mailAttachments?: string;
 };
 
+
+
 // export const sendSMS = async (phoneNumber: string, token: string) => {
 //   try {
 //     const message = `Hello, your Insurance authentication code is ${token}. Expires in 10 minutes. PLEASE DO NOT SHARE.`;

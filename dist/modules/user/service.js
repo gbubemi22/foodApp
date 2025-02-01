@@ -3,6 +3,7 @@ import User from "./model.js";
 import { generateOTP, getOtpExpiryTime } from "../../utils/util.js";
 import sendEmail from "../../utils/mailtrap.js";
 import { hash } from "../../utils/bcryptiUtils.js";
+import { createSession, deleteSession } from "../../utils/session.js";
 export const create = async (payload) => {
     const checkUser = await User.findOne({
         $or: [{ phone_number: payload.phoneNumber }, { email: payload.email }],
@@ -32,7 +33,8 @@ export const create = async (payload) => {
             id: user._id,
             email: user.email,
             phoneNumber: user.phoneNumber,
-            FullName: user.fullName,
+            firstName: user.firstName,
+            lastName: user.lastName,
         },
     };
 };
@@ -47,14 +49,22 @@ export const login = async (phoneNumber, email, password) => {
         throw new UnauthorizedError("Incorrect login details");
     }
     const token = await user.generateJWT();
+    const sessionPayload = {
+        id: user.id,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+    };
+    const sess = await createSession(user.id, sessionPayload);
+    console.log(sess);
     return {
         success: true,
-        message: `Welcome ${user.fullName}`,
+        message: `Welcome ${user.firstName}`,
         user: {
             id: user._id,
             email: user.email,
             phoneNumber: user.phoneNumber,
-            fullName: user.fullName,
+            firstName: user.firstName,
+            lastName: user.lastName,
         },
         token,
     };
@@ -160,14 +170,14 @@ export const resetPassword = async (email, password, otp_token) => {
         data,
     };
 };
-// export const logout = async (id: string) => {
-//   await deleteSession(id);
-//   return {
-//     status: true,
-//     message: "User successfully logged out",
-//     data: {},
-//   };
-// };
+export const logout = async (id) => {
+    await deleteSession(id);
+    return {
+        status: true,
+        message: "User successfully logged out",
+        data: {},
+    };
+};
 export const getProfile = async (userId) => {
     const user = await User.findById(userId).select("-password");
     if (!user)
@@ -178,15 +188,18 @@ export const getProfile = async (userId) => {
         data: user.toJSON(),
     };
 };
-export const updateUserProfile = async (userId, fullName, phoneNumber, email) => {
+export const updateUserProfile = async (userId, firstName, phoneNumber, email, lastName) => {
     // Find the user by ID
     const user = await User.findById(userId);
     if (!user) {
         throw new NotFoundError(`User not found`);
     }
     // Update the user's profile fields
-    if (fullName) {
-        user.fullName = fullName;
+    if (firstName) {
+        user.firstName = firstName;
+    }
+    if (lastName) {
+        user.lastName = lastName;
     }
     if (phoneNumber) {
         user.phoneNumber = phoneNumber;
@@ -214,3 +227,45 @@ export const uploadImage = async (userId, image) => {
         data: [],
     };
 };
+// export type DecodedUser = {
+//   userId: Types.ObjectId;
+//   email: string;
+//   phoneNumber: string;
+//   fullName: string;
+// };
+// export const createSession = async (userId: string, payload: DecodedUser) => {
+//   const key = `auth:sessions:${userId}`;
+//   try {
+//     const redisInstance = new Redis(redis as unknown as string);
+//     // Retrieve current session if it exists
+//     const currentSession = await redisInstance.get(key);
+//     // If a session exists, delete it
+//     if (currentSession) {
+//       await redisInstance.delete(key);
+//     }
+//     // Set the new session with a duration of 30 minutes (60 seconds * 30)
+//     const duration = 60 * 30;
+//     const durationFor7Days = duration * 24 * 7;
+//     // Duration for 1000 days (in minutes)
+//     const durationFor1000Days = duration * 24 * 1000;
+//     await redisInstance.setEx(key, payload, durationFor1000Days);
+//     return userId;
+//   } catch (error) {
+//     console.error("Error creating session:", (error as Error).message);
+//     throw new BadRequestError(`Error creating session`);
+//   }
+// };
+// export const getSession = async (userId: string) => {
+//   const key = `auth:sessions:${userId}`;
+//   const redisInstance = new Redis(redis as unknown as string);
+//   // Retrieve current session if it exists
+//   const session = await redisInstance.get(key);
+//   if (!session || session === "") return false;
+//   return session;
+// };
+// export const deleteSession = async (insuredId: string) => {
+//   const key = `auth:sessions:${insuredId}`;
+//   const redisInstance = new Redis(redis as unknown as string);
+//   await redisInstance.delete(key);
+//   return true;
+// };

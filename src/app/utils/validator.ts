@@ -81,7 +81,9 @@ export default {
   create: {
     body: {
       schema: Joi.object({
-        fullName: Joi.string().required(),
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        address: Joi.string().required(),
         email: Joi.string()
           .required()
           .email()
@@ -89,6 +91,10 @@ export default {
         phoneNumber: Joi.string().required(),
         password: validatePasswordString,
       }),
+      location: Joi.object({
+        latitude: Joi.number().optional().min(-90).max(90),
+        longitude: Joi.number().optional().min(-180).max(180),
+      }).optional(),
     },
   },
 

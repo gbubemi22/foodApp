@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import { create, forgetPassword, getProfile, login, resetPassword, sendOtpToMail, updateUserProfile, uploadImage, verifyEmail, } from "./service.js";
-import { uploadToS3 } from "../../utils/aws.js";
+import { uploadToCloudinary } from "../../utils/upload.js";
 export const Create = async (req, res, next) => {
     try {
         res.status(StatusCodes.CREATED).json(await create(req.body));
@@ -86,7 +86,7 @@ export const UploadImage = async (req, res, next) => {
                 .json({ error: "No image uploaded" });
         }
         const image = req.files.image;
-        const imageUrl = await uploadToS3(image);
+        const imageUrl = await uploadToCloudinary(image);
         res
             .status(StatusCodes.CREATED)
             .json(await uploadImage(userId, imageUrl));

@@ -12,6 +12,7 @@ import {
   verifyEmail,
 } from "./service.js";
 import { uploadToS3 } from "../../utils/aws.js";
+import { uploadToCloudinary } from "../../utils/upload.js";
 
 export const Create: Controller = async (req, res, next) => {
   try {
@@ -101,7 +102,7 @@ export const UploadImage: Controller = async (req, res, next) => {
     const image = req.files.image;
    
 
-    const imageUrl = await uploadToS3(image);
+    const imageUrl = await uploadToCloudinary(image);
     res
       .status(StatusCodes.CREATED)
       .json(await uploadImage(userId, imageUrl));

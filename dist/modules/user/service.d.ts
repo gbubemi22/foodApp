@@ -6,7 +6,8 @@ export declare const create: (payload: UserDataType) => Promise<{
         id: unknown;
         email: string;
         phoneNumber: string;
-        FullName: string;
+        firstName: string;
+        lastName: string;
     };
 }>;
 export declare const login: (phoneNumber: string, email: string, password: string) => Promise<{
@@ -16,32 +17,32 @@ export declare const login: (phoneNumber: string, email: string, password: strin
         id: unknown;
         email: string;
         phoneNumber: string;
-        fullName: string;
+        firstName: string;
+        lastName: string;
     };
     token: string;
 }>;
 export declare const verifyEmail: (email: string, otp_token: string) => Promise<{
     success: boolean;
     data: (string | (import("mongoose").Document<unknown, {}, import("./type.js").UserDocument> & import("mongoose").Document<unknown, any, any> & {
+        firstName: string;
+        lastName: string;
         email: string;
         password: string;
         phoneNumber: string;
-        fullName: string;
         otp: string;
         expired_at: Date;
         verifiedEmail: boolean;
         verifiedPhoneNumber: boolean;
         image?: string;
-        lastLoginDevice: {
-            userAgent: String;
-            appVersion: String;
-            platform: String;
-            platformVersion: String;
-            device: String;
-            notificationToken: String;
-            expoPushNotificationToken: String;
-            devicePushNotificationToken: String;
+        address: string;
+        location: {
+            latitude: number;
+            longitude: number;
         };
+        deviceType: string;
+        deviceToken: string;
+        deviceName: string;
         comparePassword(candidatePassword: string): Promise<boolean>;
         generateJWT(): Promise<string>;
     } & Required<{
@@ -65,83 +66,85 @@ export declare const resetPassword: (email: string, password: string, otp_token:
     success: boolean;
     message: string;
     data: import("mongoose").FlattenMaps<import("mongoose").Document<unknown, any, any> & {
+        firstName: string;
+        lastName: string;
         email: string;
         password: string;
         phoneNumber: string;
-        fullName: string;
         otp: string;
         expired_at: Date;
         verifiedEmail: boolean;
         verifiedPhoneNumber: boolean;
         image?: string;
-        lastLoginDevice: {
-            userAgent: String;
-            appVersion: String;
-            platform: String;
-            platformVersion: String;
-            device: String;
-            notificationToken: String;
-            expoPushNotificationToken: String;
-            devicePushNotificationToken: String;
+        address: string;
+        location: {
+            latitude: number;
+            longitude: number;
         };
+        deviceType: string;
+        deviceToken: string;
+        deviceName: string;
         comparePassword(candidatePassword: string): Promise<boolean>;
         generateJWT(): Promise<string>;
     } & Required<{
         _id: unknown;
     }>>;
+}>;
+export declare const logout: (id: string) => Promise<{
+    status: boolean;
+    message: string;
+    data: {};
 }>;
 export declare const getProfile: (userId: string) => Promise<{
     success: boolean;
     message: string;
     data: import("mongoose").FlattenMaps<import("mongoose").Document<unknown, any, any> & {
+        firstName: string;
+        lastName: string;
         email: string;
         password: string;
         phoneNumber: string;
-        fullName: string;
         otp: string;
         expired_at: Date;
         verifiedEmail: boolean;
         verifiedPhoneNumber: boolean;
         image?: string;
-        lastLoginDevice: {
-            userAgent: String;
-            appVersion: String;
-            platform: String;
-            platformVersion: String;
-            device: String;
-            notificationToken: String;
-            expoPushNotificationToken: String;
-            devicePushNotificationToken: String;
+        address: string;
+        location: {
+            latitude: number;
+            longitude: number;
         };
+        deviceType: string;
+        deviceToken: string;
+        deviceName: string;
         comparePassword(candidatePassword: string): Promise<boolean>;
         generateJWT(): Promise<string>;
     } & Required<{
         _id: unknown;
     }>>;
 }>;
-export declare const updateUserProfile: (userId: string, fullName?: string, phoneNumber?: string, email?: string) => Promise<{
+export declare const updateUserProfile: (userId: string, firstName?: string, phoneNumber?: string, email?: string, lastName?: string) => Promise<{
     success: boolean;
     message: string;
     data: import("mongoose").FlattenMaps<import("mongoose").Document<unknown, any, any> & {
+        firstName: string;
+        lastName: string;
         email: string;
         password: string;
         phoneNumber: string;
-        fullName: string;
         otp: string;
         expired_at: Date;
         verifiedEmail: boolean;
         verifiedPhoneNumber: boolean;
         image?: string;
-        lastLoginDevice: {
-            userAgent: String;
-            appVersion: String;
-            platform: String;
-            platformVersion: String;
-            device: String;
-            notificationToken: String;
-            expoPushNotificationToken: String;
-            devicePushNotificationToken: String;
+        address: string;
+        location: {
+            latitude: number;
+            longitude: number;
         };
+        deviceType: string;
+        deviceToken: string;
+        deviceName: string;
         comparePassword(candidatePassword: string): Promise<boolean>;
         generateJWT(): Promise<string>;
     } & Required<{
