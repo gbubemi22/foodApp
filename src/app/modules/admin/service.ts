@@ -57,7 +57,7 @@ export const login = async (email: string, password: string) => {
 
   return {
     success: true,
-    message: `Welcome ${admin.fullName}`,
+    message: `Welcome ${admin.role} ${admin.fullName}`,
     data: {
       id: admin._id,
       email: admin.email,
@@ -67,7 +67,7 @@ export const login = async (email: string, password: string) => {
 };
 
 export const getProfile = async (adminId: string) => {
-  const user = await Admin.findById(adminId).select("-password").exec();
+  const user = await Admin.findById(adminId)
 
   console.log(user);
 
@@ -79,8 +79,6 @@ export const getProfile = async (adminId: string) => {
     data: user.toJSON(),
   };
 };
-
-
 
 export const logout = async (id: string) => {
   await deleteSession(id);

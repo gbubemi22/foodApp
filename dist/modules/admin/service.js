@@ -40,7 +40,7 @@ export const login = async (email, password) => {
     console.log("SESS", sess);
     return {
         success: true,
-        message: `Welcome ${admin.fullName}`,
+        message: `Welcome ${admin.role} ${admin.fullName}`,
         data: {
             id: admin._id,
             email: admin.email,
@@ -49,7 +49,7 @@ export const login = async (email, password) => {
     };
 };
 export const getProfile = async (adminId) => {
-    const user = await Admin.findById(adminId).select("-password").exec();
+    const user = await Admin.findById(adminId);
     console.log(user);
     if (!user)
         throw new NotFoundError(`Admin not found`);

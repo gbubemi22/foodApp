@@ -32,7 +32,7 @@ export const Logout: Controller = async (req, res, next) => {
 
 export const GetProfile: Controller = async (req, res, next) => {
   try {
-    const { adminId } = req.user.id;
+    const  adminId  = req.user.id;
     console.log("AdminId", adminId);
     res.status(StatusCodes.OK).json(await getProfile(adminId));
   } catch (error) {
