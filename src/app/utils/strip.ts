@@ -15,7 +15,7 @@ export const initiatePayment = async (
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"], // Allow card payments
       mode: "payment", // One-time payment mode
-      success_url: `http://localhost:6000/v1/success?session_id={CHECKOUT_SESSION_ID}`, // Include the protocol
+      success_url: `http://206.189.4.145/v1/success?session_id={CHECKOUT_SESSION_ID}`, // Include the protocol
       // Redirect URL after success
       cancel_url: `http://localhost/cancel`, // Redirect URL after cancellation
       line_items: [
