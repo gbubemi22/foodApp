@@ -83,7 +83,7 @@ export default {
       schema: Joi.object({
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
-        address: Joi.string().required(),
+        address: Joi.string().optional(),
         email: Joi.string()
           .required()
           .email()

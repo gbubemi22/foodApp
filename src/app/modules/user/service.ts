@@ -13,7 +13,7 @@ import { createSession, deleteSession } from "../../utils/session.js";
 
 export const create = async (payload: UserDataType) => {
   const checkUser = await User.findOne({
-    $or: [{ phone_number: payload.phoneNumber }, { email: payload.email }],
+    $or: [{ phoneNumber: payload.phoneNumber }, { email: payload.email }],
   });
 
   if (checkUser) {

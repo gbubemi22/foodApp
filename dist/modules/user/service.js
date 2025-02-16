@@ -6,7 +6,7 @@ import { hash } from "../../utils/bcryptiUtils.js";
 import { createSession, deleteSession } from "../../utils/session.js";
 export const create = async (payload) => {
     const checkUser = await User.findOne({
-        $or: [{ phone_number: payload.phoneNumber }, { email: payload.email }],
+        $or: [{ phoneNumber: payload.phoneNumber }, { email: payload.email }],
     });
     if (checkUser) {
         // Determine which field is duplicated and throw a ConflictError
