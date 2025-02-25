@@ -100,7 +100,7 @@ AdminSchema.methods.generateJWT = function () {
     {
       id: this._id,
       email: this.email,
-      role: this.roleId.name
+      role: this.role
     },
     process.env.ACCESS_TOKEN_SECRET as string,
     { expiresIn: expiresIn as jwt.SignOptions["expiresIn"] }

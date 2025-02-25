@@ -40,8 +40,8 @@ export const create = async (payload: VendorDataType) => {
   };
 };
 
-export const login = async (phoneNumber: string, password: string) => {
-  const vendor = await Vendor.findOne({ phoneNumber: phoneNumber }).exec();
+export const login = async (email: string, password: string) => {
+  const vendor = await Vendor.findOne({ email: email }).exec();
 
   console.log(vendor);
 
@@ -82,6 +82,8 @@ export const login = async (phoneNumber: string, password: string) => {
     user: {
       id: vendor._id,
       phoneNumber: vendor.phoneNumber,
+      email:  vendor.email,
+      businessName: vendor.businessName
     },
     token,
   };

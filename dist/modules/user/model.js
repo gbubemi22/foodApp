@@ -91,7 +91,7 @@ UserSchema.methods.generateJWT = function () {
     const token = jwt.sign({
         id: this._id,
         email: this.email,
-        role: this.roleId.name
+        //role: this.roleId.name
     }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: expiresIn });
     return token;
 };

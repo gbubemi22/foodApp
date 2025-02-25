@@ -118,7 +118,7 @@ vendorSchema.methods.generateJWT = function () {
     {
       id: this._id,
       email: this.email,
-      role: this.roleId.name,
+      //role: this.roleId.name,
     },
     process.env.ACCESS_TOKEN_SECRET as string,
     { expiresIn: expiresIn as jwt.SignOptions["expiresIn"] }

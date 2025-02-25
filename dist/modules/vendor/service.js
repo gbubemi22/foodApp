@@ -27,8 +27,8 @@ export const create = async (payload) => {
         data: [],
     };
 };
-export const login = async (phoneNumber, password) => {
-    const vendor = await Vendor.findOne({ phoneNumber: phoneNumber }).exec();
+export const login = async (email, password) => {
+    const vendor = await Vendor.findOne({ email: email }).exec();
     console.log(vendor);
     if (!vendor)
         throw new UnauthorizedError("Incorrect login details");
@@ -56,6 +56,8 @@ export const login = async (phoneNumber, password) => {
         user: {
             id: vendor._id,
             phoneNumber: vendor.phoneNumber,
+            email: vendor.email,
+            businessName: vendor.businessName
         },
         token,
     };

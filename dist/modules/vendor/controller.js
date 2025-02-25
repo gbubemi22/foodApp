@@ -10,8 +10,8 @@ export const Create = async (req, res, next) => {
 };
 export const Login = async (req, res, next) => {
     try {
-        const { phoneNumber, password } = req.body;
-        res.status(StatusCodes.OK).json(await login(phoneNumber, password));
+        const { email, password } = req.body;
+        res.status(StatusCodes.OK).json(await login(email, password));
     }
     catch (error) {
         next(error);

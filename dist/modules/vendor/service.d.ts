@@ -4,12 +4,14 @@ export declare const create: (payload: VendorDataType) => Promise<{
     message: string;
     data: never[];
 }>;
-export declare const login: (phoneNumber: string, password: string) => Promise<{
+export declare const login: (email: string, password: string) => Promise<{
     success: boolean;
     message: string;
     user: {
         id: unknown;
         phoneNumber: string;
+        email: string;
+        businessName: string;
     };
     token: string;
 }>;
