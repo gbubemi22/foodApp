@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { add, list, listOne, remove, update } from "./service.js";
+import { add, list, listAll, listOne, listOneForCustomer, remove, update, } from "./service.js";
 import { uploadToCloudinary } from "../../utils/upload.js";
 export const Add = async (req, res, next) => {
     try {
@@ -63,6 +63,24 @@ export const Update = async (req, res, next) => {
             ...req.body,
             image: imageUrl,
         }));
+    }
+    catch (error) {
+        next(error);
+    }
+};
+export const ListAll = async (req, res, next) => {
+    try {
+        console.log("WHERE");
+        res.status(StatusCodes.OK).json(await listAll());
+    }
+    catch (error) {
+        next(error);
+    }
+};
+export const ListOneForCustomer = async (req, res, next) => {
+    try {
+        const { itemId } = req.params;
+        res.status(StatusCodes.OK).json(await listOneForCustomer(itemId));
     }
     catch (error) {
         next(error);

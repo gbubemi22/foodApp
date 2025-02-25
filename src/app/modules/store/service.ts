@@ -29,6 +29,30 @@ export const list = async (vendorId: string) => {
   };
 };
 
+export const listAll = async () => {
+  const result = await Item.find();
+
+  return {
+    success: true,
+    message: `fetched successfully`,
+    data: result,
+  };
+};
+
+export const listOneForCustomer = async (itemId: string) => {
+  const result = await Item.findById(itemId);
+
+  if (!result) {
+    throw new NotFoundError(`Item not found`);
+  }
+
+  return {
+    success: true,
+    message: `fetched successfully`,
+    data: result,
+  };
+};
+
 export const listOne = async (itemId: string, vendorId: string) => {
   const result = await Item.findOne({ _id: itemId, vendorId: vendorId });
 

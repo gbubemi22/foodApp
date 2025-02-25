@@ -1,10 +1,12 @@
 import express from "express";
-import { Add, List, ListOne, Remove, Update } from "./controller.js";
+import { Add, List, ListAll, ListOne, ListOneForCustomer, Remove, Update, } from "./controller.js";
 import { verifyToken } from "../../middleware/auth.js";
 const router = express.Router();
+router.route("/all-customers").get(ListAll);
 router.route("/").post(verifyToken, Add);
 router.route("/").get(verifyToken, List);
 router.route("/:itemId").get(verifyToken, ListOne);
 router.route("/:itemId").delete(verifyToken, Remove);
 router.route("/:itemId").patch(verifyToken, Update);
+router.route("/customers/:itemId").get(verifyToken, ListOneForCustomer);
 export default router;
