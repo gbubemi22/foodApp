@@ -1,9 +1,9 @@
 import otpGenerator from "otp-generator";
 import mongoose from "mongoose";
-import { encodeJwt } from "./constant.js";
+
 import { v1 as uuidV1, v4 as uuidV4, validate as UUIDValidation } from "uuid";
 import mime from "mime-types";
-import axios from 'axios';
+import axios from "axios";
 
 export const connectDB = (url: string) => {
   mongoose.set("strictQuery", false);
@@ -27,13 +27,13 @@ export const generateReferralCode = (): string => {
   const letters = Array(3)
     .fill(null)
     .map(() => String.fromCharCode(97 + Math.floor(Math.random() * 26)))
-    .join('');
+    .join("");
 
   // Generate 3 random numbers
   const numbers = Array(3)
     .fill(null)
     .map(() => Math.floor(Math.random() * 10))
-    .join('');
+    .join("");
 
   return `${letters}-${numbers}`;
 };
@@ -44,7 +44,12 @@ const getOtpExpiryTime = () => {
 };
 
 const validateFileType = (file: any): boolean => {
-  const allowedMimeTypes = ["image/jpeg", "image/png", "image/jpg", "application/pdf"];
+  const allowedMimeTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/jpg",
+    "application/pdf",
+  ];
   const fileMimeType = mime.lookup(file.originalname); // Lookup MIME type by filename
 
   // Check if MIME type is valid and within the allowed list
@@ -81,8 +86,6 @@ export type SendMailDataType = {
   mailBody: string;
   mailAttachments?: string;
 };
-
-
 
 // export const sendSMS = async (phoneNumber: string, token: string) => {
 //   try {

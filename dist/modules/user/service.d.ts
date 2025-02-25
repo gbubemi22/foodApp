@@ -88,7 +88,9 @@ export declare const resetPassword: (email: string, password: string, otp_token:
         generateJWT(): Promise<string>;
     } & Required<{
         _id: unknown;
-    }>>;
+    }> & {
+        __v: number;
+    }>;
 }>;
 export declare const logout: (id: string) => Promise<{
     status: boolean;
@@ -121,7 +123,9 @@ export declare const getProfile: (userId: string) => Promise<{
         generateJWT(): Promise<string>;
     } & Required<{
         _id: unknown;
-    }>>;
+    }> & {
+        __v: number;
+    }>;
 }>;
 export declare const updateUserProfile: (userId: string, firstName?: string, phoneNumber?: string, email?: string, lastName?: string) => Promise<{
     success: boolean;
@@ -149,7 +153,9 @@ export declare const updateUserProfile: (userId: string, firstName?: string, pho
         generateJWT(): Promise<string>;
     } & Required<{
         _id: unknown;
-    }>>;
+    }> & {
+        __v: number;
+    }>;
 }>;
 export declare const uploadImage: (userId: string, image: any) => Promise<{
     status: boolean;

@@ -10,11 +10,6 @@ export interface DefaultResponseInt {
 }
 export declare const redis: Redis;
 export type Controller = (req: Request, res: Response, next: NextFunction) => Promise<any>;
-export declare const encodeJwt: ({ data, secretKey, duration, }: {
-    data: any;
-    secretKey: string;
-    duration: string;
-}) => Promise<any>;
 export declare const KYCStatus: {
     PENDING: string;
     APPROVED: string;

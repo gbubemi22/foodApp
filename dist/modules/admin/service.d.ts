@@ -42,7 +42,9 @@ export declare const getProfile: (adminId: string) => Promise<{
         generateJWT(): Promise<string>;
     } & Required<{
         _id: unknown;
-    }>>;
+    }> & {
+        __v: number;
+    }>;
 }>;
 export declare const logout: (id: string) => Promise<{
     status: boolean;
@@ -78,5 +80,7 @@ export declare const resetPassword: (email: string, password: string, otp_token:
         generateJWT(): Promise<string>;
     } & Required<{
         _id: unknown;
-    }>>;
+    }> & {
+        __v: number;
+    }>;
 }>;

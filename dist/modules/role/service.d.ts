@@ -3,6 +3,8 @@ export declare const createRole: (name: string) => Promise<{
     message: string;
     data: import("mongoose").FlattenMaps<import("./model.js").RoleDocument & {
         _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
     }>;
 }>;
 export declare const listAllRoles: () => Promise<{
@@ -19,6 +21,8 @@ export declare const listOneRole: (roleId: string) => Promise<{
     message: string;
     data: import("mongoose").FlattenMaps<import("./model.js").RoleDocument & {
         _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
     }>;
 }>;
 export declare const updateRoleService: (roleId: string, name: string) => Promise<{
@@ -26,6 +30,8 @@ export declare const updateRoleService: (roleId: string, name: string) => Promis
     message: string;
     data: import("mongoose").FlattenMaps<import("./model.js").RoleDocument & {
         _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
     }>;
 }>;
 export declare const deleteRoleService: (roleId: string) => Promise<{

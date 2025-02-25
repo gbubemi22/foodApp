@@ -12,7 +12,9 @@ export declare const add: (vendorId: string, image: string, payload: ItemData) =
         image: string;
     } & Required<{
         _id: unknown;
-    }>>;
+    }> & {
+        __v: number;
+    }>;
 }>;
 export declare const list: (vendorId: string) => Promise<{
     success: boolean;

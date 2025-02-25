@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 dotenv.config();
-import jwt from "jsonwebtoken";
 import { v4 as uuidV4 } from "uuid";
 import { Redis } from "./helper.js";
 const redisUrl = process.env.REDIS_URL;
@@ -8,17 +7,23 @@ export const redis = new Redis(redisUrl);
 if (process.env.NODE_ENV === 'development') {
     console.log('Redis', 'Connection established to Redis instance ...');
 }
-export const encodeJwt = ({ data, secretKey = process.env.APP_KEY || "", duration = "24h", }) => {
-    return new Promise((ful, rej) => {
-        if (!secretKey)
-            return rej(new Error("Kindly supply secret key"));
-        jwt.sign(data, secretKey, { expiresIn: duration }, (err, token) => {
-            if (err)
-                rej(err);
-            ful(token);
-        });
-    });
-};
+// export const encodeJwt = ({
+//   data,
+//   secretKey = process.env.APP_KEY || "",
+//   duration = "24h",
+// }: {
+//   data: any;
+//   secretKey: string;
+//   duration: string;
+// }): Promise<any> => {
+//   return new Promise((ful, rej) => {
+//     if (!secretKey) return rej(new Error("Kindly supply secret key"));
+//     jwt.sign(data, secretKey, { expiresIn: duration }, (err, token) => {
+//       if (err) rej(err);
+//       ful(token);
+//     });
+//   });
+// };
 // Define possible KYC statuses
 export const KYCStatus = {
     PENDING: "Pending",

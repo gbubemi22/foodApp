@@ -27,23 +27,23 @@ export type Controller = (
   next: NextFunction
 ) => Promise<any>;
 
-export const encodeJwt = ({
-  data,
-  secretKey = process.env.APP_KEY || "",
-  duration = "24h",
-}: {
-  data: any;
-  secretKey: string;
-  duration: string;
-}): Promise<any> => {
-  return new Promise((ful, rej) => {
-    if (!secretKey) return rej(new Error("Kindly supply secret key"));
-    jwt.sign(data, secretKey, { expiresIn: duration }, (err, token) => {
-      if (err) rej(err);
-      ful(token);
-    });
-  });
-};
+// export const encodeJwt = ({
+//   data,
+//   secretKey = process.env.APP_KEY || "",
+//   duration = "24h",
+// }: {
+//   data: any;
+//   secretKey: string;
+//   duration: string;
+// }): Promise<any> => {
+//   return new Promise((ful, rej) => {
+//     if (!secretKey) return rej(new Error("Kindly supply secret key"));
+//     jwt.sign(data, secretKey, { expiresIn: duration }, (err, token) => {
+//       if (err) rej(err);
+//       ful(token);
+//     });
+//   });
+// };
 
 // Define possible KYC statuses
 export const KYCStatus = {

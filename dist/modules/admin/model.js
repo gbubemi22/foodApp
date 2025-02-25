@@ -58,10 +58,12 @@ AdminSchema.methods.comparePassword = async function (candidatePassword) {
     return isMatch;
 };
 AdminSchema.methods.generateJWT = function () {
+    const expiresIn = process.env.JWT_TOKEN_VALIDITY;
     const token = jwt.sign({
         id: this._id,
         email: this.email,
-    }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.JWT_TOKEN_VALIDITY });
+        role: this.roleId.name
+    }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: expiresIn });
     return token;
 };
 const Admin = mongoose.model("Admin", AdminSchema);

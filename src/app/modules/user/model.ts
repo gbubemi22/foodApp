@@ -103,13 +103,16 @@ UserSchema.methods.comparePassword = async function (
 };
 
 UserSchema.methods.generateJWT = function () {
+  const expiresIn = process.env.JWT_TOKEN_VALIDITY as string;
+
   const token = jwt.sign(
     {
       id: this._id,
       email: this.email,
+      role: this.roleId.name
     },
     process.env.ACCESS_TOKEN_SECRET as string,
-    { expiresIn: process.env.JWT_TOKEN_VALIDITY }
+    { expiresIn: expiresIn as jwt.SignOptions["expiresIn"] }
   );
   return token;
 };

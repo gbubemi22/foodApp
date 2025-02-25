@@ -7,8 +7,8 @@
   "scripts": {
     "test": "jest",
     "build": "tsc --project tsconfig.json",
-    "start": "npm run build && node --max-old-space-size=1024 dist/app.js",
-    "dev": "nodemon --watch src --exec 'npm run build && node dist/app.js'",
+    "start": "yarn build && node --max-old-space-size=1024 dist/app.js",
+    "dev": "nodemon --watch src --exec 'yarn build && node dist/app.js'",
     "format": "prettier --write \"**/*.{js,ts,json}\"",
     "seed:admin": "node --loader ts-node/esm src/app/modules/admin/seedAdmin.ts"
   },
