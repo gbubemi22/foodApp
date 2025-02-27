@@ -3,9 +3,10 @@ import { Controller } from "../../utils/constant.js";
 import {
   add,
   list,
-  listAll,
+  listExtras,
+  listFood,
+  listFreshFood,
   listOne,
-  listOneForCustomer,
   remove,
   update,
 } from "./service.js";
@@ -43,8 +44,36 @@ export const List: Controller = async (req, res, next) => {
 export const ListOne: Controller = async (req, res, next) => {
   try {
     const vendorId = req.user.id;
+    console.log(vendorId);
     const { itemId } = req.params;
     res.status(StatusCodes.OK).json(await listOne(itemId, vendorId));
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const ListFreshFood: Controller = async (req, res, next) => {
+  try {
+    const vendorId = req.user.id;
+    res.status(StatusCodes.OK).json(await listFreshFood(vendorId));
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const ListFood: Controller = async (req, res, next) => {
+  try {
+    const vendorId = req.user.id;
+    res.status(StatusCodes.OK).json(await listFood(vendorId));
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const ListExtras: Controller = async (req, res, next) => {
+  try {
+    const vendorId = req.user.id;
+    res.status(StatusCodes.OK).json(await listExtras(vendorId));
   } catch (error) {
     next(error);
   }
@@ -79,24 +108,6 @@ export const Update: Controller = async (req, res, next) => {
         image: imageUrl,
       })
     );
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const ListAll: Controller = async (req, res, next) => {
-  try {
-    console.log("WHERE")
-    res.status(StatusCodes.OK).json(await listAll());
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const ListOneForCustomer: Controller = async (req, res, next) => {
-  try {
-    const { itemId } = req.params;
-    res.status(StatusCodes.OK).json(await listOneForCustomer(itemId));
   } catch (error) {
     next(error);
   }

@@ -19,19 +19,33 @@ export const list = async (vendorId) => {
         data: result,
     };
 };
-export const listAll = async () => {
-    const result = await Item.find();
+export const listFreshFood = async (vendorId) => {
+    const result = await Item.find({
+        vendorId: vendorId,
+        category: "Fresh_food",
+    });
     return {
         success: true,
         message: `fetched successfully`,
         data: result,
     };
 };
-export const listOneForCustomer = async (itemId) => {
-    const result = await Item.findById(itemId);
-    if (!result) {
-        throw new NotFoundError(`Item not found`);
-    }
+export const listFood = async (vendorId) => {
+    const result = await Item.find({
+        vendorId: vendorId,
+        category: "Food",
+    });
+    return {
+        success: true,
+        message: `fetched successfully`,
+        data: result,
+    };
+};
+export const listExtras = async (vendorId) => {
+    const result = await Item.find({
+        vendorId: vendorId,
+        category: "Extras",
+    });
     return {
         success: true,
         message: `fetched successfully`,
@@ -40,7 +54,8 @@ export const listOneForCustomer = async (itemId) => {
 };
 export const listOne = async (itemId, vendorId) => {
     const result = await Item.findOne({ _id: itemId, vendorId: vendorId });
-    if (result) {
+    console.log("CHECK RESULT", result);
+    if (!result) {
         throw new NotFoundError(`Item not found`);
     }
     return {

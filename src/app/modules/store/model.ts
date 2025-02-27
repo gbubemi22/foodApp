@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 export type ItemDocument = mongoose.Document & {
   vendorId: mongoose.Types.ObjectId;
+
   itemName: string;
   description: string;
   price: number;
@@ -23,7 +24,7 @@ export type UpdateItemData = {
   description?: string;
   price?: number;
   category?: string;
-  preparationTime: number;
+  preparationTime?: number;
   image?: string;
 };
 
@@ -34,6 +35,7 @@ const ItemSchema = new mongoose.Schema<ItemDocument>(
       required: true,
       ref: "Vendor",
     },
+
     itemName: {
       type: String,
       required: true,
@@ -48,6 +50,7 @@ const ItemSchema = new mongoose.Schema<ItemDocument>(
     },
     category: {
       type: String,
+      enum: ["Food", "Fresh_food", "Extras"],
       required: true,
     },
     preparationTime: {

@@ -29,8 +29,11 @@ export const list = async (vendorId: string) => {
   };
 };
 
-export const listAll = async () => {
-  const result = await Item.find();
+export const listFreshFood = async (vendorId: string) => {
+  const result = await Item.find({
+    vendorId: vendorId,
+    category: "Fresh_food",
+  });
 
   return {
     success: true,
@@ -39,12 +42,24 @@ export const listAll = async () => {
   };
 };
 
-export const listOneForCustomer = async (itemId: string) => {
-  const result = await Item.findById(itemId);
+export const listFood = async (vendorId: string) => {
+  const result = await Item.find({
+    vendorId: vendorId,
+    category: "Food",
+  });
 
-  if (!result) {
-    throw new NotFoundError(`Item not found`);
-  }
+  return {
+    success: true,
+    message: `fetched successfully`,
+    data: result,
+  };
+};
+
+export const listExtras = async (vendorId: string) => {
+  const result = await Item.find({
+    vendorId: vendorId,
+    category: "Extras",
+  });
 
   return {
     success: true,
@@ -54,9 +69,12 @@ export const listOneForCustomer = async (itemId: string) => {
 };
 
 export const listOne = async (itemId: string, vendorId: string) => {
+ 
   const result = await Item.findOne({ _id: itemId, vendorId: vendorId });
 
-  if (result) {
+  console.log("CHECK RESULT", result);
+
+  if (!result) {
     throw new NotFoundError(`Item not found`);
   }
 
@@ -115,3 +133,4 @@ export const remove = async (itemId: string, vendorId: string) => {
     data: [],
   };
 };
+

@@ -20,7 +20,7 @@ export type UpdateItemData = {
     description?: string;
     price?: number;
     category?: string;
-    preparationTime: number;
+    preparationTime?: number;
     image?: string;
 };
 declare const Item: mongoose.Model<ItemDocument, {}, {}, {}, mongoose.Document<unknown, {}, ItemDocument> & mongoose.Document<unknown, any, any> & {

@@ -19,6 +19,7 @@ const ItemSchema = new mongoose.Schema({
     },
     category: {
         type: String,
+        enum: ["Food", "Fresh_food", "Extras"],
         required: true,
     },
     preparationTime: {
