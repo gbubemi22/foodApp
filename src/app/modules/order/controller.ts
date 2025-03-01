@@ -2,6 +2,7 @@ import { Controller } from "../../utils/constant.js";
 import { StatusCodes } from "http-status-codes";
 import {
   create,
+  getDeliveryFee,
   listCustomerOrders,
   listOneCustomerOrder,
   listOneVendorOrder,
@@ -16,6 +17,30 @@ export const Create: Controller = async (req, res, next) => {
     const userId = req.user.id;
     res.status(StatusCodes.CREATED).json(await create(userId, req.body));
   } catch (error) {
+    next(error);
+  }
+};
+
+export const GetDeliveryFee: Controller = async (req, res, next) => {
+  try {
+    const { latitude, longitude, vendorId } = req.query;
+
+    if (!latitude || !longitude || !vendorId) {
+      return res.status(400).json({
+        message: "Vendor ID, Latitude, and Longitude are required",
+      });
+    }
+
+    res
+      .status(StatusCodes.OK)
+      .json(
+        await getDeliveryFee(
+          Number(latitude),
+          Number(longitude),
+          vendorId.toString()
+        )
+      );
+  } catch (error: any) {
     next(error);
   }
 };
@@ -80,11 +105,11 @@ export const UpdateOrderStatus: Controller = async (req, res, next) => {
   try {
     const vendorId = req.user.id;
     const { orderId } = req.params;
-    const { status } =req.body;
+    const { status } = req.body;
     res
       .status(StatusCodes.CREATED)
       .json(await updateOrderStatus(orderId, vendorId, status));
   } catch (error) {
     next(error);
   }
-}
+};

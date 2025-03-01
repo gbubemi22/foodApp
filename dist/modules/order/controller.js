@@ -1,9 +1,25 @@
 import { StatusCodes } from "http-status-codes";
-import { create, listCustomerOrders, listOneCustomerOrder, listOneVendorOrder, listVendorsOrders, trackOrder, updateOrderStatus, } from "./service.js";
+import { create, getDeliveryFee, listCustomerOrders, listOneCustomerOrder, listOneVendorOrder, listVendorsOrders, trackOrder, updateOrderStatus, } from "./service.js";
 export const Create = async (req, res, next) => {
     try {
         const userId = req.user.id;
         res.status(StatusCodes.CREATED).json(await create(userId, req.body));
+    }
+    catch (error) {
+        next(error);
+    }
+};
+export const GetDeliveryFee = async (req, res, next) => {
+    try {
+        const { latitude, longitude, vendorId } = req.query;
+        if (!latitude || !longitude || !vendorId) {
+            return res.status(400).json({
+                message: "Vendor ID, Latitude, and Longitude are required",
+            });
+        }
+        res
+            .status(StatusCodes.OK)
+            .json(await getDeliveryFee(Number(latitude), Number(longitude), vendorId.toString()));
     }
     catch (error) {
         next(error);

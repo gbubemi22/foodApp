@@ -45,6 +45,10 @@ export declare const create: (userId: string, payload: OrderData) => Promise<{
     };
     paymentUrl: string | null;
 }>;
+export declare const getDeliveryFee: (latitude: number, longitude: number, vendorId: string) => Promise<{
+    deliveryFee: number;
+    estimatedDeliveryTime: number;
+}>;
 export declare const listOneCustomerOrder: (orderId: string, userId: string) => Promise<{
     success: boolean;
     message: string;

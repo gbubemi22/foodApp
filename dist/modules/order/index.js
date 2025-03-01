@@ -1,5 +1,5 @@
 import express from "express";
-import { Create, ListCustomerOrders, ListOneCustomerOrder, ListOneVendorOrder, ListVendorsOrders, TrackOrder, UpdateOrderStatus, } from "./controller.js";
+import { Create, GetDeliveryFee, ListCustomerOrders, ListOneCustomerOrder, ListOneVendorOrder, ListVendorsOrders, TrackOrder, UpdateOrderStatus, } from "./controller.js";
 import { verifyToken } from "../../middleware/auth.js";
 const router = express.Router();
 router.route("/").post(verifyToken, Create);
@@ -7,6 +7,7 @@ router.route("/").post(verifyToken, Create);
 router.route("/track/:trackId").get(verifyToken, TrackOrder);
 router.route("/customers/:orderId").get(verifyToken, ListOneCustomerOrder);
 router.route("/customers").get(verifyToken, ListCustomerOrders);
+router.route("/delivery-fee").get(GetDeliveryFee);
 //////Vendors ////////
 router.route("/vendors/:orderId").get(verifyToken, ListOneVendorOrder);
 router.route("/vendors").get(verifyToken, ListVendorsOrders);

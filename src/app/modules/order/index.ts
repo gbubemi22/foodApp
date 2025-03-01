@@ -1,6 +1,7 @@
 import express from "express";
 import {
   Create,
+  GetDeliveryFee,
   ListCustomerOrders,
   ListOneCustomerOrder,
   ListOneVendorOrder,
@@ -19,6 +20,7 @@ router.route("/track/:trackId").get(verifyToken, TrackOrder);
 router.route("/customers/:orderId").get(verifyToken, ListOneCustomerOrder);
 router.route("/customers").get(verifyToken, ListCustomerOrders);
 
+router.route("/delivery-fee").get(GetDeliveryFee)
 
 //////Vendors ////////
 router.route("/vendors/:orderId").get(verifyToken, ListOneVendorOrder);

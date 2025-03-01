@@ -9,9 +9,10 @@ export const initiatePayment = async (amount, currency, referenceId) => {
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ["card"], // Allow card payments
             mode: "payment", // One-time payment mode
-            success_url: `http://206.189.4.145/v1/success?session_id={CHECKOUT_SESSION_ID}`, // Include the protocol
+            success_url: `https://app.quickfoodshop.co.uk/v1/success?session_id={CHECKOUT_SESSION_ID}`,
+            // Include the protocol
             // Redirect URL after success
-            cancel_url: `http://localhost/cancel`, // Redirect URL after cancellation
+            cancel_url: `http://app.quickfoodshop.co.uk/v1/cancel`, // Redirect URL after cancellation
             line_items: [
                 {
                     price_data: {
@@ -49,8 +50,12 @@ export const verifyPayment = async (sessionId) => {
             throw new BadRequestError("Reference ID not found in session metadata");
         }
         const referenceId = session.metadata.referenceId;
+        const i = await Order.findOne({ reference: referenceId });
+        if (!i) {
+            throw new NotFoundError("Order not found");
+        }
         // Find the order by referenceId
-        const order = await Order.findOneAndUpdate({ reference: referenceId }, { paymentStatus: PaymentStatusEnum.PAID }, { new: true });
+        const order = await Order.findOneAndUpdate({ reference: i.reference }, { $set: { paymentStatus: PaymentStatusEnum.PAID } }, { new: true });
         if (!order) {
             throw new NotFoundError("Order not found");
         }

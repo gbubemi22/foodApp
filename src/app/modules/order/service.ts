@@ -8,10 +8,10 @@ import Item from "../store/model.js";
 import Order from "./model.js";
 import { OrderData, OrderStatusEnum } from "./type.js";
 import Vendor from "../vendor/model.js";
-import { NotFoundError } from "../../utils/error.js";
+import { BadRequestError, NotFoundError } from "../../utils/error.js";
 import mongoose from "mongoose";
-import { listOne } from "../store/service";
 import Transaction from "../transaction/model.js";
+import User from "../user/model.js";
 
 export const create = async (userId: string, payload: OrderData) => {
   // Step 2: Fetch all items from the database
@@ -151,6 +151,55 @@ export const create = async (userId: string, payload: OrderData) => {
   };
 };
 
+export const getDeliveryFee = async (
+  latitude: number,
+  longitude: number,
+  vendorId: string
+) => {
+  // Validate User Location
+  if (!latitude || !longitude) {
+    throw new BadRequestError("User location is required");
+  }
+
+  // Fetch Vendor Location
+  const vendor = await Vendor.findOne({ _id: vendorId });
+
+  if (!vendor) {
+    throw new NotFoundError(`Vendor with ID ${vendorId} not found`);
+  }
+
+  const userLocation = {
+    latitude: latitude,
+    longitude: longitude,
+  };
+
+  // Calculate Distance
+  const distanceInKm = haversineDistance(
+    {
+      latitude: vendor.location.latitude,
+      longitude: vendor.location.longitude,
+    },
+    userLocation
+  );
+
+  console.log(`Distance: ${distanceInKm.toFixed(2)} km`);
+
+  // Delivery Fee Calculation
+  const deliveryFeePerKm = 300; // 300 NGN per KM
+  const deliveryFee = Math.ceil(distanceInKm * deliveryFeePerKm); // Round Up
+
+  // Estimated Delivery Time (2 mins per KM)
+  const estimatedDeliveryTime = Math.ceil(distanceInKm * 2);
+
+  console.log(`Delivery Fee: ${deliveryFee}`);
+  console.log(`Estimated Time: ${estimatedDeliveryTime} mins`);
+
+  return {
+    deliveryFee,
+    estimatedDeliveryTime, // Added Estimated Time
+  };
+};
+
 /////// Customers  ///////
 
 export const listOneCustomerOrder = async (orderId: string, userId: string) => {
@@ -240,7 +289,7 @@ export const updateOrderStatus = async (
     { new: true, runValidators: true }
   );
 
- const updates =  await Order.findOneAndUpdate(
+  const updates = await Order.findOneAndUpdate(
     { _id: orderId, vendorId: vendorId },
     {
       $push: {
