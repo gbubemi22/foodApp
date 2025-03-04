@@ -15,10 +15,10 @@ export const initiatePayment = async (
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"], // Allow card payments
       mode: "payment", // One-time payment mode
-      success_url: `https://app.quickfoodshop.co.uk/v1/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${process.env.SUCCESS_URL}?session_id={CHECKOUT_SESSION_ID}`,
       // Include the protocol
       // Redirect URL after success
-      cancel_url: `http://app.quickfoodshop.co.uk/v1/cancel`, // Redirect URL after cancellation
+      cancel_url: `${process.env.CANCEL_URL}`, // Redirect URL after cancellation
       line_items: [
         {
           price_data: {

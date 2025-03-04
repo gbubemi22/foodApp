@@ -107,10 +107,8 @@ export const getDeliveryFee = async (latitude, longitude, vendorId) => {
     if (!latitude || !longitude) {
         throw new BadRequestError("User location is required");
     }
-    console.log("VENDOR", vendorId);
     // Fetch Vendor Location
     const vendor = await Vendor.findOne({ _id: vendorId });
-    console.log("VENDOR2", vendor);
     if (!vendor) {
         throw new NotFoundError(`Vendor with ID ${vendorId} not found`);
     }

@@ -4,7 +4,7 @@ import { verifyPayment } from "../../utils/strip.js";
 
 export const VerifyPayment: Controller = async (req, res, next) => {
   try {
-    const { session_id } = req.query;
+    const { session_id } = req.params;
     if (typeof session_id === 'string') {
       res.status(StatusCodes.OK).json(await verifyPayment(session_id));
     } else {
