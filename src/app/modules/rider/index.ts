@@ -1,0 +1,39 @@
+import express from "express";
+import {
+  ChangePassword,
+  Create,
+  ForgetPassword,
+  GetProfile,
+  Login,
+  Logout,
+  ResetPassword,
+  SendOtpToMail,
+  UpdateUserProfile,
+  UploadImage,
+} from "./controller.js";
+import { verifyToken } from "../../middleware/auth.js";
+import { detectDeviceInfo } from "../../middleware/device.js";
+
+const router = express.Router();
+
+router.route("/signup").post(Create);
+
+router.route("/login").post(detectDeviceInfo,Login);
+
+router.route("/send-otp-email").post(SendOtpToMail);
+
+router.route("/forget-password").post(ForgetPassword);
+
+router.route("/rest-password").post(ResetPassword);
+
+router.route("/logout").get(verifyToken, Logout);
+
+router.route("/profile").get(verifyToken, GetProfile);
+
+router.route("/update-profile").patch(verifyToken, UpdateUserProfile);
+
+router.route("/upload-image").patch(verifyToken, UploadImage);
+
+router.route("/change-password").patch(verifyToken, ChangePassword);
+
+export default router;

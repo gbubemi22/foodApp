@@ -28,7 +28,7 @@ export const create = async (payload) => {
     await sendEmail(user.email, "Email Verification", otp);
     return {
         status: true,
-        message: "Success! Please verify your email",
+        message: "Success! Your account will be reviewed",
         data: {
             id: user._id,
             email: user.email,
@@ -38,7 +38,7 @@ export const create = async (payload) => {
         },
     };
 };
-export const login = async (phoneNumber, email, password) => {
+export const login = async (phoneNumber, email, password, deviceType, deviceName, deviceToken) => {
     const user = await User.findOne({
         $or: [{ phoneNumber: phoneNumber }, { email: email }],
     }).exec();
@@ -49,6 +49,17 @@ export const login = async (phoneNumber, email, password) => {
         throw new UnauthorizedError("Incorrect login details");
     }
     const token = await user.generateJWT();
+    if (user.deviceType !== deviceType ||
+        user.deviceToken !== deviceToken ||
+        user.deviceName !== deviceName) {
+        await User.findOneAndUpdate({ _id: user.id }, {
+            $set: {
+                deviceType: deviceType,
+                deviceToken: deviceToken,
+                deviceName: deviceName,
+            },
+        });
+    }
     const sessionPayload = {
         id: user.id,
         email: user.email,

@@ -13,9 +13,6 @@ import { verifyToken } from "../../middleware/auth.js";
 
 export const router = express.Router();
 
-
-
-
 //////// VENDOR ////////
 
 router.route("/food").get(verifyToken, ListFood);
@@ -24,13 +21,11 @@ router.route("/extras").get(verifyToken, ListExtras);
 
 router.route("/").post(verifyToken, Add);
 
-router.route("/").get(verifyToken, List);
+router.route("/").get(List);
 
 router.route("/:itemId").get(verifyToken, ListOne);
 
 router.route("/fresh/food").get(verifyToken, ListFreshFood);
-
-
 
 router.route("/:itemId").delete(verifyToken, Remove);
 

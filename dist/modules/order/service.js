@@ -8,7 +8,13 @@ import Vendor from "../vendor/model.js";
 import { BadRequestError, NotFoundError } from "../../utils/error.js";
 import mongoose from "mongoose";
 import Transaction from "../transaction/model.js";
+import User from "../user/model.js";
+import firebaseAdmin from "../../utils/firebase.js";
 export const create = async (userId, payload) => {
+    const user = await User.findById(userId);
+    if (!user) {
+        throw new NotFoundError(`User not found`);
+    }
     // Step 2: Fetch all items from the database
     const itemIds = payload.items.map((item) => item.itemId);
     const items = await Item.find({ _id: { $in: itemIds } });
@@ -96,6 +102,18 @@ export const create = async (userId, payload) => {
     });
     // Step 13: Initiate the payment process
     const paymentUrl = await initiatePayment(totalAmountInKobo, "ngn", newOrder.reference);
+    if (vendor.deviceToken) {
+        await firebaseAdmin.messaging().send({
+            token: vendor.deviceToken,
+            notification: {
+                title: "Airtime Purchase Successful",
+                body: `You have a new Order`,
+            },
+            data: {
+                from: user.firstName,
+            },
+        });
+    }
     // Step 14: Return the created order and payment URL
     return {
         order: savedOrder,

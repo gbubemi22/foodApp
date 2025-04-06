@@ -18,6 +18,11 @@ const OrderSchema = new mongoose.Schema<OrderDocument>(
       enum: OrderStatusEnum,
       default: OrderStatusEnum.PENDING,
     },
+    riderId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Rider",
+      required: false,
+    },
     orderId: { type: String, required: true },
     items: [
       {

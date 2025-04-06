@@ -146,6 +146,9 @@ export default {
       email: Joi.string().optional(),
       phoneNumber: Joi.string().optional(),
       password: Joi.string().required(),
+      deviceType: Joi.string().optional(),
+      deviceName: Joi.string().optional(),
+      deviceToken: Joi.string().optional(),
     }),
   },
 };

@@ -4,6 +4,7 @@ export declare const verifyPayment: (sessionId: string) => Promise<{
     order: import("mongoose").Document<unknown, {}, import("../modules/order/type.js").OrderDocument> & import("mongoose").Document<unknown, any, any> & {
         userId: import("mongoose").Types.ObjectId;
         vendorId: import("mongoose").Types.ObjectId;
+        riderId?: import("mongoose").Types.ObjectId;
         orderStatus: string;
         orderId: string;
         items: {

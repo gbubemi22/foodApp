@@ -13,12 +13,15 @@ import {
   UploadImage,
 } from "./controller.js";
 import { verifyToken } from "../../middleware/auth.js";
+import { detectDeviceInfo } from "../../middleware/device.js";
 
 const router = express.Router();
 
 router.route("/register").post(joiValidator(validation.create), Create);
 
-router.route("/login").post(joiValidator(validation.login), Login);
+router
+  .route("/login")
+  .post(joiValidator(validation.login), detectDeviceInfo, Login);
 
 router
   .route("/send-otp-email")

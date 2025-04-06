@@ -4,6 +4,7 @@ export declare const create: (userId: string, payload: OrderData) => Promise<{
     order: mongoose.Document<unknown, {}, import("./type.js").OrderDocument> & mongoose.Document<unknown, any, any> & {
         userId: mongoose.Types.ObjectId;
         vendorId: mongoose.Types.ObjectId;
+        riderId?: mongoose.Types.ObjectId;
         orderStatus: string;
         orderId: string;
         items: {
@@ -55,6 +56,7 @@ export declare const listOneCustomerOrder: (orderId: string, userId: string) => 
     data: mongoose.Document<unknown, {}, import("./type.js").OrderDocument> & mongoose.Document<unknown, any, any> & {
         userId: mongoose.Types.ObjectId;
         vendorId: mongoose.Types.ObjectId;
+        riderId?: mongoose.Types.ObjectId;
         orderStatus: string;
         orderId: string;
         items: {
@@ -102,6 +104,7 @@ export declare const listCustomerOrders: (userId: string) => Promise<{
     data: (mongoose.Document<unknown, {}, import("./type.js").OrderDocument> & mongoose.Document<unknown, any, any> & {
         userId: mongoose.Types.ObjectId;
         vendorId: mongoose.Types.ObjectId;
+        riderId?: mongoose.Types.ObjectId;
         orderStatus: string;
         orderId: string;
         items: {
@@ -159,6 +162,7 @@ export declare const listOneVendorOrder: (orderId: string, vendorId: string) => 
     data: mongoose.Document<unknown, {}, import("./type.js").OrderDocument> & mongoose.Document<unknown, any, any> & {
         userId: mongoose.Types.ObjectId;
         vendorId: mongoose.Types.ObjectId;
+        riderId?: mongoose.Types.ObjectId;
         orderStatus: string;
         orderId: string;
         items: {
@@ -205,6 +209,7 @@ export declare const listVendorsOrders: (vendorId: string) => Promise<{
     data: (mongoose.Document<unknown, {}, import("./type.js").OrderDocument> & mongoose.Document<unknown, any, any> & {
         userId: mongoose.Types.ObjectId;
         vendorId: mongoose.Types.ObjectId;
+        riderId?: mongoose.Types.ObjectId;
         orderStatus: string;
         orderId: string;
         items: {
@@ -251,6 +256,7 @@ export declare const updateOrderStatus: (orderId: string, vendorId: string, stat
     data: (mongoose.Document<unknown, {}, import("./type.js").OrderDocument> & mongoose.Document<unknown, any, any> & {
         userId: mongoose.Types.ObjectId;
         vendorId: mongoose.Types.ObjectId;
+        riderId?: mongoose.Types.ObjectId;
         orderStatus: string;
         orderId: string;
         items: {

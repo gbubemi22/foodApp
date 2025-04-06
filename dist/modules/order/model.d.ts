@@ -3,6 +3,7 @@ import { OrderDocument } from "./type.js";
 declare const Order: mongoose.Model<OrderDocument, {}, {}, {}, mongoose.Document<unknown, {}, OrderDocument> & mongoose.Document<unknown, any, any> & {
     userId: mongoose.Types.ObjectId;
     vendorId: mongoose.Types.ObjectId;
+    riderId?: mongoose.Types.ObjectId;
     orderStatus: string;
     orderId: string;
     items: {

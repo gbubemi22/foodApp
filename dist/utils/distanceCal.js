@@ -24,13 +24,3 @@ const distanceInMeters = haversineDistance(`${vendorLocation}`, `${userLocation}
 console.log(`Distance: ${distanceInKm.toFixed(2)} km`);
 console.log(`Distance: ${distanceInMiles.toFixed(2)} miles`);
 console.log(`Distance: ${distanceInMeters.toFixed(2)} meters`);
-// import { getDistance } from 'geolib';
-// const distance = getDistance(
-//   { latitude: vendorLat, longitude: vendorLong },
-//   { latitude: userLat, longitude: userLong }
-// );
-// if (distance <= vendorDeliveryRangeInMeters) {
-//   console.log('Delivery possible!');
-// } else {
-//   console.log('Out of delivery range!');
-// }

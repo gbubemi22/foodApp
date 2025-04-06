@@ -1,9 +1,16 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 import { StatusCodes } from "http-status-codes";
+import http from 'http';
+import socketServer from "./socketServer.js";
+
 
 import express, { Application, Request, Response, NextFunction } from "express";
 const app: Application = express();
+
+const server = http.createServer(app);
+
+socketServer.attach(server);
 
 import cors from "cors";
 import morgan from "morgan";
@@ -17,6 +24,8 @@ import { connectDB } from "./utils/util.js";
 
 // import routes
 import route from "./router/index.js";
+import { detectDeviceInfo } from "./middleware/device.js";
+
 
 app.use(morgan("dev"));
 app.use(cors());
@@ -31,6 +40,7 @@ if (process.env.NODE_ENV === "production") {
 
 app.use(mongoSanitize());
 app.use(helmet());
+app.use(detectDeviceInfo);
 
 if (process.env.NODE_ENV === "development") {
   app.use((req, res, next) => {
@@ -74,8 +84,8 @@ const port = process.env.PORT;
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URI as string);
-    app.listen(port, () => {
-      console.log(`⚡️Listening on port ${port}...`);
+    server.listen(port, () => {
+      console.log(`⚡️Socket Server⚡️Listening on port ${port}...`);
     });
   } catch (error) {
     console.log("An error occurred:", error);

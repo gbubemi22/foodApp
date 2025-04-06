@@ -12,8 +12,18 @@ import { BadRequestError, NotFoundError } from "../../utils/error.js";
 import mongoose from "mongoose";
 import Transaction from "../transaction/model.js";
 import User from "../user/model.js";
+import firebaseAdmin from "../../utils/firebase.js";
+import sendEmail from "../../utils/mailtrap.js";
+import { ThankYou } from "../../template/thankYou.js";
+import { NewOrder } from "@/app/template/newOder.js";
 
 export const create = async (userId: string, payload: OrderData) => {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new NotFoundError(`User not found`);
+  }
+
   // Step 2: Fetch all items from the database
   const itemIds = payload.items.map((item) => item.itemId);
   const items: Array<{
@@ -143,6 +153,25 @@ export const create = async (userId: string, payload: OrderData) => {
     "ngn",
     newOrder.reference
   );
+
+  if (vendor.deviceToken) {
+    await firebaseAdmin.messaging().send({
+      token: vendor.deviceToken,
+      notification: {
+        title: "You have a new Order",
+        body: savedOrder.id,
+      },
+      data: {
+        from: user.firstName,
+      },
+    });
+  }
+  await sendEmail(
+    vendor.email,
+    "Thank You",
+    NewOrder(savedOrder.id, user.firstName, user.email)
+  );
+  await sendEmail(user.email, "Thank You", ThankYou(savedOrder.id));
 
   // Step 14: Return the created order and payment URL
   return {

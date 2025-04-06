@@ -43,7 +43,7 @@ export const create = async (payload: UserDataType) => {
 
   return {
     status: true,
-    message: "Success! Please verify your email",
+    message: "Success! Your account will be reviewed",
     data: {
       id: user._id,
       email: user.email,
@@ -57,7 +57,10 @@ export const create = async (payload: UserDataType) => {
 export const login = async (
   phoneNumber: string,
   email: string,
-  password: string
+  password: string,
+  deviceType?: string,
+  deviceName?: string,
+  deviceToken?: string,
 ) => {
   const user = await User.findOne({
     $or: [{ phoneNumber: phoneNumber }, { email: email }],
@@ -72,6 +75,23 @@ export const login = async (
   }
 
   const token = await user.generateJWT();
+
+  if (
+    user.deviceType !== deviceType ||
+    user.deviceToken !== deviceToken ||
+    user.deviceName !== deviceName
+  ) {
+    await User.findOneAndUpdate(
+      { _id: user.id },
+      {
+        $set: {
+          deviceType: deviceType,
+          deviceToken: deviceToken,
+          deviceName: deviceName,
+        },
+      }
+    );
+  }
 
   const sessionPayload = {
     id: user.id,
@@ -268,7 +288,7 @@ export const updateUserProfile = async (
   firstName?: string,
   phoneNumber?: string,
   email?: string,
-  lastName?: string,
+  lastName?: string
 ) => {
   // Find the user by ID
   const user = await User.findById(userId);

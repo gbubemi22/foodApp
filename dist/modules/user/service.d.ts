@@ -10,7 +10,7 @@ export declare const create: (payload: UserDataType) => Promise<{
         lastName: string;
     };
 }>;
-export declare const login: (phoneNumber: string, email: string, password: string) => Promise<{
+export declare const login: (phoneNumber: string, email: string, password: string, deviceType?: string, deviceName?: string, deviceToken?: string) => Promise<{
     success: boolean;
     message: string;
     user: {

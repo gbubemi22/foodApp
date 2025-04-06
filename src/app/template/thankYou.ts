@@ -1,0 +1,270 @@
+export function ThankYou(orderId: string): string {
+  return `
+       
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickFoodShop Thank You</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f7fafc;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 600px;
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+           
+            overflow: hidden;
+        }
+
+        .header {
+            display: flex;
+            justify-content: center;
+            padding: 1rem 0;
+            background-color: #ffffff;
+        }
+
+        .logo {
+            height: 2rem;
+            width: auto;
+        }
+
+        .content {
+            background-color: #f0fff4;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .content h1 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .content p {
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .order-summary {
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .order-summary h2 {
+            font-size: 1.125rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .order-date {
+            font-size: 0.875rem;
+            color: #4a5568;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+.order-items{
+    border: 0.5px solid rgb(224, 224, 224);
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: -10px;
+    border-radius: 10px;
+}
+        .items h4 {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-align: left;
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 0.25rem;
+            object-fit: cover;
+            margin-right: 1rem;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-details h4 {
+            font-weight: bold;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+        }
+
+        .item-details p {
+            font-size: 0.75rem;
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .item-pricing {
+            text-align: right;
+        }
+
+        .item-pricing p {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .item-pricing p:last-child {
+            font-size: 0.75rem;
+        }
+
+        .shipping, .payment, .totals {
+            margin-top: 1rem;
+            background-color: #eaeceb;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .shipping h3, .payment h3, .totals h3 {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-align: left;
+        }
+
+        .shipping ul, .payment ul, .totals ul {
+            list-style: none;
+            padding: 0;
+            font-size: 0.875rem;
+        }
+
+        .shipping li, .payment li, .totals li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+        }
+
+        .contact, .signature {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.875rem;
+        }
+
+        .signature p:last-child {
+            font-weight: bold;
+        }
+
+        .link {
+            color: #2f855a;
+            font-weight: 500;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <img src="logo.png" alt="QuickFoodShop Logo" class="logo">
+            </div>
+
+            <div class="content">
+                <h1>Thank You for Your Order!</h1>
+                <p>Thank you for your order! We’re excited to get it shipped to you.</p>
+                <p> This email confirms that we have received your order <span style="font-weight: bolder;"> ${orderId}.</span></p>
+            </div>
+
+            <div class="order-summary">
+                <h2>Order Summary:</h2>
+                <p class="order-date">5${new Date().getFullYear()}</p>
+
+                <div class="items">
+                    <h3>Ordered Items:</h3>
+
+                    <div class="order-items">
+                    <div class="item">
+                        <img src="jollof-rice.png" alt="Jollof Rice" class="item-image">
+                        <div class="item-details">
+                            <h4>Jollof Rice</h4>
+                            <p>Price: <span> $20</span></p>
+                            <p>Quantity: <span>1</span> </p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="coleslaw.png" alt="Coleslaw" class="item-image">
+                        <div class="item-details">
+                            <h4>Coleslaw</h4>
+                            <p>Price: <span> $20</span></p>
+                            <p>Quantity: <span> 1</span> </p>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <div class="shipping">
+                    <h3>Shipping Information:</h3>
+                    <ul>
+                        <li><span>Estimated Shipping Date:</span><span>${new Date().getFullYear()}</span></li>
+                        <li><span>Estimated Delivery Date:</span><span>${new Date().getFullYear()}</span></li>
+                        <li><span>Shipping Carrier:</span><span>QuickFoodShop (if available)</span></li>
+                        <li><span>Tracking Number:</span><span>#ADB1126</span></li>
+                    </ul>
+               
+
+               
+                    <h3>Payment Information:</h3>
+                    <ul>
+                        <li><span>Payment Method:</span><span>PayPal</span></li>
+                    </ul>
+                </div>
+
+                <div class="totals">
+                  
+                    <ul>
+                        <li><span>Subtotal:</span><span>$40</span></li>
+                        <li><span>Tax:</span><span>-</span></li>
+                        <li><span>Total:</span><span>$40</span></li>
+                    </ul>
+                </div>
+
+                <div class="contact">
+                    <p>If you have any questions, please contact us at <a href="mailto:info@quickfoodshop.com" class="link">info@quickfoodshop.com</a> or call us at <a href="tel:+44837467283" class="link">+44837467283</a></p>
+                </div>
+
+                <div class="signature">
+                    <p>Sincerely,</p>
+                    <p>The QuickFoodShop Team</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+     `;
+}

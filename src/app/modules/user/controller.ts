@@ -43,7 +43,14 @@ export const SendOtpToMail: Controller = async (req, res, next) => {
 export const Login: Controller = async (req, res, next) => {
   try {
     const { phoneNumber, email, password } = req.body;
-    res.status(StatusCodes.OK).json(await login(phoneNumber, email, password));
+    const { deviceType } = req.deviceInfo;
+    const requestDeviceName = req.headers["user-agent"] as string;
+    console.log("NAME:", requestDeviceName);
+
+    const deviceName = requestDeviceName;
+    res
+      .status(StatusCodes.OK)
+      .json(await login(phoneNumber, email, password, deviceType, deviceName));
   } catch (error) {
     next(error);
   }
@@ -90,7 +97,6 @@ export const UpdateUserProfile: Controller = async (req, res, next) => {
   }
 };
 
-
 export const UploadImage: Controller = async (req, res, next) => {
   try {
     const userId = req.user.id;
@@ -100,12 +106,9 @@ export const UploadImage: Controller = async (req, res, next) => {
         .json({ error: "No image uploaded" });
     }
     const image = req.files.image;
-   
 
     const imageUrl = await uploadToCloudinary(image);
-    res
-      .status(StatusCodes.CREATED)
-      .json(await uploadImage(userId, imageUrl));
+    res.status(StatusCodes.CREATED).json(await uploadImage(userId, imageUrl));
   } catch (error) {
     next(error);
   }

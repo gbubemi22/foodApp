@@ -1,0 +1,153 @@
+import { UserDataType } from "./type.js";
+export declare const create: (payload: UserDataType) => Promise<{
+    status: boolean;
+    message: string;
+    data: {
+        id: unknown;
+        email: string;
+        phoneNumber: string;
+        firstName: string;
+        lastName: string;
+    };
+}>;
+export declare const login: (phoneNumber: string, email: string, password: string, deviceType?: string, deviceName?: string, deviceToken?: string) => Promise<{
+    success: boolean;
+    message: string;
+    user: {
+        id: unknown;
+        email: string;
+        phoneNumber: string;
+        firstName: string;
+        lastName: string;
+    };
+    token: string;
+}>;
+export declare const sendOtpToMail: (email: string) => Promise<{
+    success: boolean;
+    message: string;
+    data: never[];
+}>;
+export declare const forgetPassword: (email: string) => Promise<{
+    success: boolean;
+    message: string;
+    data: never[];
+}>;
+export declare const resetPassword: (email: string, password: string, otp_token: string) => Promise<{
+    success: boolean;
+    message: string;
+    data: import("mongoose").FlattenMaps<import("mongoose").Document<unknown, any, any> & {
+        firstName: string;
+        lastName: string;
+        email: string;
+        password: string;
+        phoneNumber: string;
+        otp: string;
+        expired_at: Date;
+        verifiedEmail: boolean;
+        verifiedPhoneNumber: boolean;
+        status: boolean;
+        image?: string;
+        address: string;
+        location: {
+            latitude: number;
+            longitude: number;
+        };
+        isAvailable: string;
+        deviceType: string;
+        deviceToken: string;
+        deviceName: string;
+        comparePassword(candidatePassword: string): Promise<boolean>;
+        generateJWT(): Promise<string>;
+    } & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    }>;
+}>;
+export declare const logout: (id: string) => Promise<{
+    status: boolean;
+    message: string;
+    data: {};
+}>;
+export declare const getProfile: (riderId: string) => Promise<{
+    success: boolean;
+    message: string;
+    data: import("mongoose").FlattenMaps<import("mongoose").Document<unknown, any, any> & {
+        firstName: string;
+        lastName: string;
+        email: string;
+        password: string;
+        phoneNumber: string;
+        otp: string;
+        expired_at: Date;
+        verifiedEmail: boolean;
+        verifiedPhoneNumber: boolean;
+        status: boolean;
+        image?: string;
+        address: string;
+        location: {
+            latitude: number;
+            longitude: number;
+        };
+        isAvailable: string;
+        deviceType: string;
+        deviceToken: string;
+        deviceName: string;
+        comparePassword(candidatePassword: string): Promise<boolean>;
+        generateJWT(): Promise<string>;
+    } & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    }>;
+}>;
+export declare const updateUserProfile: (riderId: string, firstName?: string, phoneNumber?: string, email?: string, lastName?: string) => Promise<{
+    success: boolean;
+    message: string;
+    data: import("mongoose").FlattenMaps<import("mongoose").Document<unknown, any, any> & {
+        firstName: string;
+        lastName: string;
+        email: string;
+        password: string;
+        phoneNumber: string;
+        otp: string;
+        expired_at: Date;
+        verifiedEmail: boolean;
+        verifiedPhoneNumber: boolean;
+        status: boolean;
+        image?: string;
+        address: string;
+        location: {
+            latitude: number;
+            longitude: number;
+        };
+        isAvailable: string;
+        deviceType: string;
+        deviceToken: string;
+        deviceName: string;
+        comparePassword(candidatePassword: string): Promise<boolean>;
+        generateJWT(): Promise<string>;
+    } & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    }>;
+}>;
+export declare const uploadImage: (riderId: string, image: any) => Promise<{
+    status: boolean;
+    message: string;
+    data: never[];
+}>;
+export declare const changePassword: (riderId: string, currentPassword: string, newPassword: string) => Promise<{
+    success: boolean;
+    message: string;
+    data: never[];
+}>;
+export declare const myLocation: (riderId: string, newLocation: {
+    latitude: number;
+    longitude: number;
+}) => Promise<{
+    status: boolean;
+    message: string;
+    data: never[];
+}>;

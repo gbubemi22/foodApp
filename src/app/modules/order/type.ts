@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 export type OrderDocument = mongoose.Document & {
   userId: mongoose.Types.ObjectId;
   vendorId: mongoose.Types.ObjectId;
+  riderId?: mongoose.Types.ObjectId;
   orderStatus: string;
   orderId: string;
   items: {
