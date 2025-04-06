@@ -9,3 +9,7 @@ export declare const GetProfile: Controller;
 export declare const UpdateUserProfile: Controller;
 export declare const UploadImage: Controller;
 export declare const ChangePassword: Controller;
+export declare const AllOrders: Controller;
+export declare const Stat: Controller;
+export declare const AetUserAverageRating: Controller;
+export declare const ActiveDelivery: Controller;

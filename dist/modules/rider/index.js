@@ -1,5 +1,5 @@
 import express from "express";
-import { ChangePassword, Create, ForgetPassword, GetProfile, Login, Logout, ResetPassword, SendOtpToMail, UpdateUserProfile, UploadImage, } from "./controller.js";
+import { ActiveDelivery, AetUserAverageRating, AllOrders, ChangePassword, Create, ForgetPassword, GetProfile, Login, Logout, ResetPassword, SendOtpToMail, Stat, UpdateUserProfile, UploadImage, } from "./controller.js";
 import { verifyToken } from "../../middleware/auth.js";
 import { detectDeviceInfo } from "../../middleware/device.js";
 const router = express.Router();
@@ -13,4 +13,9 @@ router.route("/profile").get(verifyToken, GetProfile);
 router.route("/update-profile").patch(verifyToken, UpdateUserProfile);
 router.route("/upload-image").patch(verifyToken, UploadImage);
 router.route("/change-password").patch(verifyToken, ChangePassword);
+//////  DASHBOARD //////
+router.route("/orders").get(verifyToken, AllOrders);
+router.route("/stats").get(verifyToken, Stat);
+router.route("/ratings").get(verifyToken, AetUserAverageRating);
+router.route("/active-delivery").get(verifyToken, ActiveDelivery);
 export default router;

@@ -5,6 +5,9 @@ import Rider from "../rider/model.js";
 import Vendor from "../vendor/model.js";
 import Order from "../order/model.js";
 import Track from "../track/model.js";
+import sendEmail from "../../utils/mailtrap.js";
+import { Tracking } from "../../template/orderTracking.js";
+import User from "../user/model.js";
 export const findNearbyRiders = async (vendorId, orderId) => {
     const vendor = await Vendor.findById(vendorId);
     if (!vendor)
@@ -76,6 +79,10 @@ export const acceptOrder = async (riderId, orderId) => {
     if (!vendor) {
         throw new NotFoundError("Vendor not found");
     }
+    const user = await User.findById(order.userId);
+    if (!user) {
+        throw new NotFoundError("User not found");
+    }
     await Track.create({
         orderId,
         riderId,
@@ -95,6 +102,7 @@ export const acceptOrder = async (riderId, orderId) => {
             longitude: rider.location.longitude,
         },
     });
+    await sendEmail(user.email, "Thank You", Tracking(order.id));
     return updatedOrder;
 };
 export const updateRiderLocation = async (riderId, newLocation) => {

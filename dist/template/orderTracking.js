@@ -1,7 +1,7 @@
-export function ThankYou(orderId) {
+export function Tracking(orderId) {
     return `
-       
-<!DOCTYPE html>
+
+  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -197,12 +197,12 @@ export function ThankYou(orderId) {
             <div class="content">
                 <h1>Thank You for Your Order!</h1>
                 <p>Thank you for your order! We’re excited to get it shipped to you.</p>
-                <p> This email confirms that we have received your order <span style="font-weight: bolder;"> ${orderId}.</span></p>
+                <p> This email confirms that we have received your order <span style="font-weight: bolder;">${orderId}.</span></p>
             </div>
 
             <div class="order-summary">
                 <h2>Order Summary:</h2>
-                <p class="order-date">5${new Date().getFullYear()}</p>
+                <p class="order-date">${new Date().getFullYear()}</p>
 
                 <div class="items">
                     <h3>Ordered Items:</h3>
@@ -266,5 +266,6 @@ export function ThankYou(orderId) {
     </div>
 </body>
 </html>
-     `;
+  
+  `;
 }

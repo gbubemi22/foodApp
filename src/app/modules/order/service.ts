@@ -15,7 +15,7 @@ import User from "../user/model.js";
 import firebaseAdmin from "../../utils/firebase.js";
 import sendEmail from "../../utils/mailtrap.js";
 import { ThankYou } from "../../template/thankYou.js";
-import { NewOrder } from "@/app/template/newOder.js";
+import { NewOrder } from "../../template/newOder.js";
 
 export const create = async (userId: string, payload: OrderData) => {
   const user = await User.findById(userId);

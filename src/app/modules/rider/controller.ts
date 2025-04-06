@@ -14,6 +14,13 @@ import {
 } from "./service.js";
 import { uploadToCloudinary } from "../../utils/upload.js";
 
+import {
+  allOrders,
+  getUserAverageRating,
+  activeDelivery,
+  stat,
+} from "./dashboard.js";
+
 export const Create: Controller = async (req, res, next) => {
   try {
     res.status(StatusCodes.CREATED).json(await create(req.body));
@@ -26,11 +33,11 @@ export const Login: Controller = async (req, res, next) => {
   try {
     const { phoneNumber, email, password } = req.body;
     const { deviceType } = req.deviceInfo;
-    const requestDeviceName =  req.headers['user-agent'] as string;
+    const requestDeviceName = req.headers["user-agent"] as string;
     console.log("NAME:", requestDeviceName);
 
     const deviceName = requestDeviceName;
-   
+
     res
       .status(StatusCodes.OK)
       .json(await login(phoneNumber, email, password, deviceType, deviceName));
@@ -122,6 +129,46 @@ export const ChangePassword: Controller = async (req, res, next) => {
     res
       .status(StatusCodes.OK)
       .json(await changePassword(riderId, currentPassword, newPassword));
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const AllOrders: Controller = async (req, res, next) => {
+  try {
+    const riderId = req.user.id;
+
+    res.status(StatusCodes.OK).json(await allOrders(riderId));
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const Stat: Controller = async (req, res, next) => {
+  try {
+    const riderId = req.user.id;
+
+    res.status(StatusCodes.OK).json(await stat(riderId));
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const AetUserAverageRating: Controller = async (req, res, next) => {
+  try {
+    const riderId = req.user.id;
+
+    res.status(StatusCodes.OK).json(await getUserAverageRating(riderId));
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const ActiveDelivery: Controller = async (req, res, next) => {
+  try {
+    const riderId = req.user.id;
+
+    res.status(StatusCodes.OK).json(await activeDelivery(riderId));
   } catch (error) {
     next(error);
   }
