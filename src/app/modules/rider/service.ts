@@ -317,7 +317,7 @@ export const changePassword = async (
 
   return {
     success: true,
-    message: "Email Verified successful",
+    message: "Password changed successfully",
     data: [],
   };
 };

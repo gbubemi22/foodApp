@@ -5,3 +5,4 @@ export declare const ForgetPassword: Controller;
 export declare const ResetPassword: Controller;
 export declare const Logout: Controller;
 export declare const GetProfile: Controller;
+export declare const ChangePassword: Controller;

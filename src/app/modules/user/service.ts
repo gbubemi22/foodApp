@@ -339,62 +339,30 @@ export const uploadImage = async (userId: string, image: any) => {
   };
 };
 
-// export type DecodedUser = {
-//   userId: Types.ObjectId;
-//   email: string;
-//   phoneNumber: string;
-//   fullName: string;
-// };
+export const changePassword = async (
+  userId: string,
+  currentPassword: string,
+  newPassword: string
+) => {
+  const user = await User.findById(userId);
 
-// export const createSession = async (userId: string, payload: DecodedUser) => {
-//   const key = `auth:sessions:${userId}`;
+  if (!user) throw new NotFoundError(`User not found`);
 
-//   try {
-//     const redisInstance = new Redis(redis as unknown as string);
+  const comparePassword = await user.comparePassword(currentPassword);
 
-//     // Retrieve current session if it exists
-//     const currentSession = await redisInstance.get(key);
+  if (!comparePassword) throw new BadRequestError(`Incorrect password`);
 
-//     // If a session exists, delete it
-//     if (currentSession) {
-//       await redisInstance.delete(key);
-//     }
+  const hashedPassword = await hash(newPassword);
 
-//     // Set the new session with a duration of 30 minutes (60 seconds * 30)
-//     const duration = 60 * 30;
+  await User.findOneAndUpdate(
+    { _id: userId },
+    { $set: { password: hashedPassword } },
+    { new: true, runValidators: true }
+  );
 
-//     const durationFor7Days = duration * 24 * 7;
-
-//     // Duration for 1000 days (in minutes)
-//     const durationFor1000Days = duration * 24 * 1000;
-
-//     await redisInstance.setEx(key, payload, durationFor1000Days);
-
-//     return userId;
-//   } catch (error) {
-//     console.error("Error creating session:", (error as Error).message);
-//     throw new BadRequestError(`Error creating session`);
-//   }
-// };
-
-// export const getSession = async (userId: string) => {
-//   const key = `auth:sessions:${userId}`;
-
-//   const redisInstance = new Redis(redis as unknown as string);
-
-//   // Retrieve current session if it exists
-//   const session = await redisInstance.get(key);
-
-//   if (!session || session === "") return false;
-
-//   return session;
-// };
-
-// export const deleteSession = async (insuredId: string) => {
-//   const key = `auth:sessions:${insuredId}`;
-//   const redisInstance = new Redis(redis as unknown as string);
-
-//   await redisInstance.delete(key);
-
-//   return true;
-// };
+  return {
+    success: true,
+    message: "Password changed successfully",
+    data: [],
+  };
+};

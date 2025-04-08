@@ -2,7 +2,10 @@
 import { NotFoundError } from "../../utils/error.js";
 import Item from "../store/model.js";
 export const listAll = async () => {
-    const result = await Item.find({});
+    const result = await Item.find({}).populate({
+        path: "vendorId", // The field to populate
+        select: "firstName businessName location businessDescription phoneNumber email", // Fields to include
+    });
     return {
         success: true,
         message: `fetched successfully`,
@@ -10,7 +13,10 @@ export const listAll = async () => {
     };
 };
 export const listOneForCustomer = async (itemId) => {
-    const result = await Item.findById(itemId);
+    const result = await Item.findById(itemId).populate({
+        path: "vendorId", // The field to populate
+        select: "firstName businessName location businessDescription phoneNumber email", // Fields to include
+    });
     if (!result) {
         throw new NotFoundError(`Item not found`);
     }
@@ -21,7 +27,11 @@ export const listOneForCustomer = async (itemId) => {
     };
 };
 export const listFreshFoodForCustomer = async () => {
-    const result = await Item.find({ category: "Fresh_food" });
+    const result = await Item.find({ category: "Fresh_food" })
+        .populate({
+        path: 'vendorId', // The field to populate
+        select: 'firstName businessName location businessDescription phoneNumber email', // Fields to include
+    });
     return {
         success: true,
         message: `fetched successfully`,
@@ -29,7 +39,10 @@ export const listFreshFoodForCustomer = async () => {
     };
 };
 export const listFoodForCustomer = async () => {
-    const result = await Item.find({ category: "Food" });
+    const result = await Item.find({ category: "Food" }).populate({
+        path: "vendorId", // The field to populate
+        select: "firstName businessName location businessDescription phoneNumber email", // Fields to include
+    });
     return {
         success: true,
         message: `fetched successfully`,
@@ -37,7 +50,10 @@ export const listFoodForCustomer = async () => {
     };
 };
 export const listExtrasForCustomer = async () => {
-    const result = await Item.find({ category: "Extras" });
+    const result = await Item.find({ category: "Extras" }).populate({
+        path: "vendorId", // The field to populate
+        select: "firstName businessName location businessDescription phoneNumber email", // Fields to include
+    });
     return {
         success: true,
         message: `fetched successfully`,

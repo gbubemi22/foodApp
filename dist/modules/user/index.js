@@ -1,10 +1,10 @@
 import express from "express";
 import { joiValidator } from "../../utils/validator.js";
 import validation from "../../utils/validator.js";
-import { Create, Login, UpdateUserProfile, GetProfile, SendOtpToMail, ForgetPassword, ResetPassword, VerifyEmail, UploadImage, } from "./controller.js";
+import { Create, Login, UpdateUserProfile, GetProfile, SendOtpToMail, ForgetPassword, ResetPassword, VerifyEmail, UploadImage, ChangePassword, } from "./controller.js";
 import { verifyToken } from "../../middleware/auth.js";
 import { detectDeviceInfo } from "../../middleware/device.js";
-const router = express.Router();
+export const router = express.Router();
 router.route("/register").post(joiValidator(validation.create), Create);
 router
     .route("/login")
@@ -24,4 +24,5 @@ router
 router.route("/update-profile").patch(verifyToken, UpdateUserProfile);
 router.route("/profile").get(verifyToken, GetProfile);
 router.route("/profile-picture").patch(verifyToken, UploadImage);
+router.route("/change-password").post(verifyToken, ChangePassword);
 export default router;

@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { create, forgetPassword, getProfile, login, resetPassword, sendOtpToMail, updateUserProfile, uploadImage, verifyEmail, } from "./service.js";
+import { changePassword, create, forgetPassword, getProfile, login, resetPassword, sendOtpToMail, updateUserProfile, uploadImage, verifyEmail, } from "./service.js";
 import { uploadToCloudinary } from "../../utils/upload.js";
 export const Create = async (req, res, next) => {
     try {
@@ -94,6 +94,18 @@ export const UploadImage = async (req, res, next) => {
         const image = req.files.image;
         const imageUrl = await uploadToCloudinary(image);
         res.status(StatusCodes.CREATED).json(await uploadImage(userId, imageUrl));
+    }
+    catch (error) {
+        next(error);
+    }
+};
+export const ChangePassword = async (req, res, next) => {
+    try {
+        const userId = req.user.id;
+        const { currentPassword, newPassword } = req.body;
+        res
+            .status(StatusCodes.OK)
+            .json(await changePassword(userId, currentPassword, newPassword));
     }
     catch (error) {
         next(error);

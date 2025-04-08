@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { Controller } from "../../utils/constant.js";
 import {
+  changePassword,
   create,
   forgetPassword,
   getProfile,
@@ -109,6 +110,18 @@ export const UploadImage: Controller = async (req, res, next) => {
 
     const imageUrl = await uploadToCloudinary(image);
     res.status(StatusCodes.CREATED).json(await uploadImage(userId, imageUrl));
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const ChangePassword: Controller = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const { currentPassword, newPassword } = req.body;
+    res
+      .status(StatusCodes.OK)
+      .json(await changePassword(userId, currentPassword, newPassword));
   } catch (error) {
     next(error);
   }

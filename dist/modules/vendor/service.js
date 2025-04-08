@@ -140,41 +140,18 @@ export const getProfile = async (vendorId) => {
         data: user.toJSON(),
     };
 };
-// export type DecodedUser = {
-//   id: Types.ObjectId;
-//   email: string;
-// };
-// export const createVendorSession = async (
-//   vendorId: string,
-//   payload: DecodedUser
-// ) => {
-//   const key = `auth:sessions:${vendorId}`;
-//   console.log("Creating session with key:", key);
-//   const redisInstance = new Redis(redis as unknown as string);
-//   // Serialize the payload before storing it
-//   const serializedPayload = JSON.stringify(payload);
-//   // Set the new session with a duration of 1000 days
-//   const durationFor1000Days = 60 * 60 * 24 * 365 * 2.7;
-//   console.log("Session duration (seconds):", durationFor1000Days);
-//   await redisInstance.setEx(key, serializedPayload, durationFor1000Days);
-//   console.log("Session created successfully");
-//   return vendorId;
-// };
-// export const getVendorSession = async (vendorId: string) => {
-//   try {
-//     const key = `auth:sessions:${vendorId}`;
-//     const redisInstance = new Redis(redis as unknown as string);
-//     // Retrieve current session if it exists
-//     const session = await redisInstance.get(key);
-//     if (!session || session === "") return false;
-//     return session;
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-// export const deleteSession = async (vendorId: string) => {
-//   const key = `auth:sessions:${vendorId}`;
-//   const redisInstance = new Redis(redis as unknown as string);
-//   await redisInstance.delete(key);
-//   return true;
-// };
+export const changePassword = async (vendorId, currentPassword, newPassword) => {
+    const vendor = await Vendor.findById(vendorId);
+    if (!vendor)
+        throw new NotFoundError(`User not found`);
+    const comparePassword = await vendor.comparePassword(currentPassword);
+    if (!comparePassword)
+        throw new BadRequestError(`Incorrect password`);
+    const hashedPassword = await hash(newPassword);
+    await Vendor.findOneAndUpdate({ _id: vendorId }, { $set: { password: hashedPassword } }, { new: true, runValidators: true });
+    return {
+        success: true,
+        message: "Password changed successfully",
+        data: [],
+    };
+};

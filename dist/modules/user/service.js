@@ -238,45 +238,18 @@ export const uploadImage = async (userId, image) => {
         data: [],
     };
 };
-// export type DecodedUser = {
-//   userId: Types.ObjectId;
-//   email: string;
-//   phoneNumber: string;
-//   fullName: string;
-// };
-// export const createSession = async (userId: string, payload: DecodedUser) => {
-//   const key = `auth:sessions:${userId}`;
-//   try {
-//     const redisInstance = new Redis(redis as unknown as string);
-//     // Retrieve current session if it exists
-//     const currentSession = await redisInstance.get(key);
-//     // If a session exists, delete it
-//     if (currentSession) {
-//       await redisInstance.delete(key);
-//     }
-//     // Set the new session with a duration of 30 minutes (60 seconds * 30)
-//     const duration = 60 * 30;
-//     const durationFor7Days = duration * 24 * 7;
-//     // Duration for 1000 days (in minutes)
-//     const durationFor1000Days = duration * 24 * 1000;
-//     await redisInstance.setEx(key, payload, durationFor1000Days);
-//     return userId;
-//   } catch (error) {
-//     console.error("Error creating session:", (error as Error).message);
-//     throw new BadRequestError(`Error creating session`);
-//   }
-// };
-// export const getSession = async (userId: string) => {
-//   const key = `auth:sessions:${userId}`;
-//   const redisInstance = new Redis(redis as unknown as string);
-//   // Retrieve current session if it exists
-//   const session = await redisInstance.get(key);
-//   if (!session || session === "") return false;
-//   return session;
-// };
-// export const deleteSession = async (insuredId: string) => {
-//   const key = `auth:sessions:${insuredId}`;
-//   const redisInstance = new Redis(redis as unknown as string);
-//   await redisInstance.delete(key);
-//   return true;
-// };
+export const changePassword = async (userId, currentPassword, newPassword) => {
+    const user = await User.findById(userId);
+    if (!user)
+        throw new NotFoundError(`User not found`);
+    const comparePassword = await user.comparePassword(currentPassword);
+    if (!comparePassword)
+        throw new BadRequestError(`Incorrect password`);
+    const hashedPassword = await hash(newPassword);
+    await User.findOneAndUpdate({ _id: userId }, { $set: { password: hashedPassword } }, { new: true, runValidators: true });
+    return {
+        success: true,
+        message: "Password changed successfully",
+        data: [],
+    };
+};

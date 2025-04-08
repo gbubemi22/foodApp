@@ -162,3 +162,8 @@ export declare const uploadImage: (userId: string, image: any) => Promise<{
     message: string;
     data: never[];
 }>;
+export declare const changePassword: (userId: string, currentPassword: string, newPassword: string) => Promise<{
+    success: boolean;
+    message: string;
+    data: never[];
+}>;

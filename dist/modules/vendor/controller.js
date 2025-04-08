@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { create, forgetPassword, getProfile, login, logout, resetPassword, } from "./service.js";
+import { changePassword, create, forgetPassword, getProfile, login, logout, resetPassword, } from "./service.js";
 export const Create = async (req, res, next) => {
     try {
         res.status(StatusCodes.CREATED).json(await create(req.body));
@@ -53,6 +53,18 @@ export const GetProfile = async (req, res, next) => {
         const vendorId = req.user.id;
         console.log("CONTROLL", vendorId);
         res.status(StatusCodes.OK).json(await getProfile(vendorId));
+    }
+    catch (error) {
+        next(error);
+    }
+};
+export const ChangePassword = async (req, res, next) => {
+    try {
+        const vendorId = req.user.id;
+        const { currentPassword, newPassword } = req.body;
+        res
+            .status(StatusCodes.OK)
+            .json(await changePassword(vendorId, currentPassword, newPassword));
     }
     catch (error) {
         next(error);

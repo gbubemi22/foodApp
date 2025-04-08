@@ -88,3 +88,8 @@ export declare const getProfile: (vendorId: string) => Promise<{
         __v: number;
     }>;
 }>;
+export declare const changePassword: (vendorId: string, currentPassword: string, newPassword: string) => Promise<{
+    success: boolean;
+    message: string;
+    data: never[];
+}>;

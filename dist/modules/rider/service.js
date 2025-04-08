@@ -217,7 +217,7 @@ export const changePassword = async (riderId, currentPassword, newPassword) => {
     await Rider.findOneAndUpdate({ _id: riderId }, { $set: { password: hashedPassword } }, { new: true, runValidators: true });
     return {
         success: true,
-        message: "Email Verified successful",
+        message: "Password changed successfully",
         data: [],
     };
 };
